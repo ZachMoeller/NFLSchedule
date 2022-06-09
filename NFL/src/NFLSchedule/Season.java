@@ -61,7 +61,14 @@ public class Season{
 				nfcDivisions.get(i).setIntraConfrenceRival(AFC.getDivision(i));
 			}
 	}
-
+	/*
+	 * Fills in each teams Team Pool
+	 * 
+	 * Confrence AFC, NFC : Confrences of the NFL
+	 * 
+	 * Takes all teams and creates a list then with the paramaters of the teams creates a list of the teams that team can play.
+	 * This does not include Intraconfrence opponent as this is first for determining bye week.
+	 */
 	private void fillTeamPools(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
