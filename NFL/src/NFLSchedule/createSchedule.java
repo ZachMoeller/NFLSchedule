@@ -92,7 +92,7 @@ public class createSchedule {
 		
 		new Season(nfl);
 
-		System.out.println(chiefs.getTeamPool());
+//		System.out.println(chiefs.getSharedByeWeek().toString());
 
 //		nfl.check();
 		

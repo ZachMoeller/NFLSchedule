@@ -1,5 +1,4 @@
 package NFLSchedule;
-import java.util.Random;
 import java.util.*;
 
 public class Season{
@@ -103,12 +102,43 @@ public class Season{
 	
 	/*
 	 * Assigns each team's bye week in pairs
+	 * 
+	 * Giants are currently getting through twice
 	 */
 	private void assignByeWeeks(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
+		List<Team> finishedTeams = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
 		teamList.addAll(NFC.getAllTeams());
 		
+		for(int i = 0; i < 32; i++) {
+			Team team = teamList.get(i);
+//			System.out.println("Working on " + team.toString());
+			if(!finishedTeams.contains(team)) {
+				List<Team> teamPool = team.getTeamPool();
+				Collections.shuffle(teamPool);
+				Team selectedTeam = teamPool.get(0);
+				
+				for(int y = 0; y < teamPool.size(); y++) {
+					selectedTeam = teamPool.get(y);
+					if(!finishedTeams.contains(selectedTeam)) {
+						break;
+					}
+//					else {
+//						System.out.println(selectedTeam.toString() + " was already done");
+//					}
+				}
+				
+				System.out.println("Paired " + team.toString() + " with " + selectedTeam.toString());
+				team.setSharedByeWeek(selectedTeam);
+				selectedTeam.setSharedByeWeek(team);
+				finishedTeams.add(selectedTeam);
+				finishedTeams.add(team);
+			}
+//			else {
+//				System.out.println(team.toString() + " was in List");
+//			}
+		}
 	}
 
 
