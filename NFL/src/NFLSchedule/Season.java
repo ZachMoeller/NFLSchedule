@@ -110,36 +110,65 @@ public class Season{
 		List<Team> finishedTeams = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
 		teamList.addAll(NFC.getAllTeams());
-		
-		for(int i = 0; i < 32; i++) {
-			Team team = teamList.get(i);
-//			System.out.println("Working on " + team.toString());
-			if(!finishedTeams.contains(team)) {
-				List<Team> teamPool = team.getTeamPool();
-				Collections.shuffle(teamPool);
-				Team selectedTeam = teamPool.get(0);
+		boolean teamFinished = true;
+//		while(finishedTeams.size() < 32) {
+//			finishedTeams.clear(); //In case of some unforseen error it will just keep going until it gets something that works. Never seen evidence of it needing this.
+//			//but im too scared to delete it.
+			while(teamList.size() > 0) {
+//				System.out.println(i);
 				
-				for(int y = 0; y < teamPool.size(); y++) {
-					selectedTeam = teamPool.get(y);
-					if(!finishedTeams.contains(selectedTeam)) {
-						break;
-					}
-//					else {
-//						System.out.println(selectedTeam.toString() + " was already done");
-//					}
+				if(!teamFinished) {
+					teamList.clear();
+					teamList.addAll(AFC.getAllTeams());
+					teamList.addAll(NFC.getAllTeams());
+					teamFinished= true;
 				}
-				
-				System.out.println("Paired " + team.toString() + " with " + selectedTeam.toString());
-				team.setSharedByeWeek(selectedTeam);
-				selectedTeam.setSharedByeWeek(team);
-				finishedTeams.add(selectedTeam);
-				finishedTeams.add(team);
+				else {
+					Team team = teamList.get(0);
+					List<Team> teamPool = team.getTeamPool();
+					Collections.shuffle(teamPool);
+					for(int y = 0; y < teamPool.size(); y++) {
+						Team selectedTeam = teamPool.get(y);
+						if(teamList.contains(selectedTeam)) {
+							team.setSharedByeWeek(selectedTeam);
+							selectedTeam.setSharedByeWeek(team);
+							teamList.remove(selectedTeam);
+							teamList.remove(team);
+							teamFinished= true;
+						}
+						else {
+							teamFinished = false;
+						}
+					}
+				}
 			}
-//			else {
-//				System.out.println(team.toString() + " was in List");
-//			}
+			System.out.println("Bye Weeks Assigned");
 		}
-	}
+
+				
+				
+//				System.out.println("Working on " + team.toString());
+//				if(!finishedTeams.contains(team)) {
+//					List<Team> teamPool = team.getTeamPool();
+//					Collections.shuffle(teamPool);
+//					Team selectedTeam = teamPool.get(0);
+//				
+//					for(int y = 0; y < teamPool.size(); y++) {
+//						selectedTeam = teamPool.get(y);
+//						if(!finishedTeams.contains(selectedTeam)) {
+//							System.out.println(finishedTeams.size()+2 + ". Paired " + team.toString() + " with " + selectedTeam.toString());
+//							team.setSharedByeWeek(selectedTeam);
+//							selectedTeam.setSharedByeWeek(team);
+//							finishedTeams.add(selectedTeam);
+//							finishedTeams.add(team);
+//							y = 500;
+//							System.out.println(team.toString());
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 
 
 
