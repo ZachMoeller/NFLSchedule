@@ -1,8 +1,9 @@
 package NFLSchedule;
+import java.util.*;
 
 public class Week {
-	Team[] teamsOnBye = new Team[4];
-	Game[] weekSchedule = new Game[16];
+	List<Team> teamsOnBye = new ArrayList<Team>();
+	List<Game> weekSchedule = new ArrayList<Game>();
 	int weekNumber;
 	
 	public Week(int weekNumber_c) {
@@ -16,23 +17,28 @@ public class Week {
 	public void setWeekNumber(int weekNumber) {
 		this.weekNumber = weekNumber;
 	}
-	public Team[] getTeamsOnBye() {
+	
+	
+	public List<Team> getTeamsOnBye() {
 		return teamsOnBye;
 	}
-	public void setTeamsOnBye(Team[] teamsOnBye) {
+
+	public void setTeamsOnBye(List<Team> teamsOnBye) {
 		this.teamsOnBye = teamsOnBye;
 	}
-	public Game[] getWeekSchedule() {
+
+	public List<Game> getWeekSchedule() {
 		return weekSchedule;
 	}
-	public void setWeekSchedule(Game[] weekSchedule) {
+
+	public void setWeekSchedule(List<Game> weekSchedule) {
 		this.weekSchedule = weekSchedule;
 	}
-	
+
 	public void printWeek() {
 		System.out.println(weekNumber + ": ");
 		for(int i = 0; i < 16; i++) {
-			System.out.print("| " + weekSchedule[i].getHomeTeam() + " vs " + weekSchedule[i].awayTeam + " |");
+			System.out.print("| " + weekSchedule.get(i).getHomeTeam() + " vs " + weekSchedule.get(i).getAwayTeam()+ " |");
 		}
 			
 		

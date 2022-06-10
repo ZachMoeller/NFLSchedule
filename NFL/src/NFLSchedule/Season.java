@@ -2,7 +2,8 @@ package NFLSchedule;
 import java.util.*;
 
 public class Season{
-	Week[] schedule = new Week[18];
+	
+	List<Week> schedule = new ArrayList<Week>();
 
 	public Season(League league) {
 		Confrence AFC = league.getConfrence(0);
@@ -18,7 +19,24 @@ public class Season{
 	
 	
 
-
+	/*
+	 * Will randomly assign in League Rivals
+	 * 
+	 * Confrence confrence: Either AFC or NFC
+	 * using the provided confrence it will first randomly assign their in confrence rival 
+	 * choosing 1 to 3 
+	 * 
+	 * 1: South
+	 * 2: East
+	 * 3: West 
+	 * 
+	 * and then assign the other 2 to each other
+	 * 
+	 * ex. The selection is 2
+	 * North and East are set as Rivals
+	 * then South and West are set as Rivals.
+	 * */
+	
 	public void selectInConfrenceRivals(Confrence confrence) {
 		Random rand = new Random();
 		int selection = rand.nextInt(3)+1;
@@ -199,28 +217,26 @@ public class Season{
 
 
 
-
-	/*
-	 * Will randomly assign in League Rivals
-	 * 
-	 * Confrence confrence: Either AFC or NFC
-	 * using the provided confrence it will first randomly assign their in confrence rival 
-	 * choosing 1 to 3 
-	 * 
-	 * 1: South
-	 * 2: East
-	 * 3: West 
-	 * 
-	 * and then assign the other 2 to each other
-	 * 
-	 * ex. The selection is 2
-	 * North and East are set as Rivals
-	 * then South and West are set as Rivals.
-	 * */
-	
-
-
-	public Week[] getSchedule(){
+	public List<Week> getSchedule() {
 		return schedule;
 	}
+
+
+	public void setSchedule(List<Week> schedule) {
+		this.schedule = schedule;
+	}
+
+	//Sets the week Numbers
+	public void initalizeSchedule() {
+		for(int i = 0; i < schedule.size(); i++) {
+			schedule.get(i).setWeekNumber(i);
+		}
+	}
+
+
+
+
+
+
+
 }
