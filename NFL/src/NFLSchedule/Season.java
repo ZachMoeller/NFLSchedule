@@ -6,6 +6,7 @@ public class Season{
 	List<Week> schedule = new ArrayList<Week>();
 
 	public Season(League league) {
+		initalizeSchedule();
 		Confrence AFC = league.getConfrence(0);
 		Confrence NFC = league.getConfrence(1);
 		selectInConfrenceRivals(AFC);
@@ -265,7 +266,7 @@ public class Season{
 			}
 		}
 //		System.out.print(teamList.get(0).getTeamPool());
-		System.out.println("Team Pools Update");
+		System.out.println("Team Pools Updated");
 	}
 
 
