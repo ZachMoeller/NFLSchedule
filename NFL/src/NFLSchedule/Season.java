@@ -125,7 +125,7 @@ public class Season{
 	 */
 	private void assignByeWeeks(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
-		List<Team> finishedTeams = new ArrayList<Team>();
+//		List<Team> finishedTeams = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
 		teamList.addAll(NFC.getAllTeams());
 		boolean teamFinished = true;
@@ -204,14 +204,56 @@ public class Season{
 	 * Confrence AFC, NFC : Confrences of the NFL
 	 */
 	private void selectIntraConfrenceOpponent(Confrence AFC, Confrence NFC) {
+		List<Team> teamList = new ArrayList<Team>();
+		teamList.addAll(AFC.getAllTeams());
+		teamList.addAll(NFC.getAllTeams());
+		boolean teamFinished = true;
 		
+		while(teamFinished) {
+			List<Team> finishedTeams = new ArrayList<Team>();
+			for(int i = 0; i < teamList.size(); i++) {
+				int seed = i%4;
+				Team team = teamList.get(i);
+				List<Team> possibleOpps = new ArrayList<Team>();
+				//You only have to do one side as you're choosing 1 from each side of the league.
+				//AFC
+				if(i < 16) {
+					for(int y = 0; y < 4; y++) {
+						possibleOpps.add(NFC.getDivision(y).getTeam(seed));
+					}
+						Collections.shuffle(possibleOpps);
+					for(int y = 0; y < 4; y++) {
+						if(!team.getTeamPool().contains(possibleOpps.get(y)) && !finishedTeams.contains(possibleOpps.get(y))) {
+							Team opp = possibleOpps.get(y);
+							team.setIntraConfrenceRivalTeam(opp);
+							List<Team> newTeamPool = team.getTeamPool();
+							newTeamPool.add(opp);
+							team.setTeamPool(newTeamPool);
+							opp.setIntraConfrenceRivalTeam(team);
+							newTeamPool = opp.getTeamPool();
+							newTeamPool.add(team);
+							opp.setTeamPool(newTeamPool);
+							teamFinished = true;
+							finishedTeams.add(team);
+							finishedTeams.add(opp);
+						}
+						else {
+							teamFinished = false;
+						}
+					}
+				}
+			}
+		}
+		System.out.println("Intraleague Opponents Selected");
 	}
 	
 	/*
 	 * Add their in division rivals to their team pool again as they play them twice.  
 	 */
 	private void updateTeamPools(Confrence AFC, Confrence NFC) {
-		// TODO Auto-generated method stub
+		List<Team> teamList = new ArrayList<Team>();
+		teamList.addAll(AFC.getAllTeams());
+		teamList.addAll(NFC.getAllTeams());
 		
 	}
 
