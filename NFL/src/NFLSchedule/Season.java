@@ -129,6 +129,7 @@ public class Season{
 //		List<Team> finishedTeams = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
 		teamList.addAll(NFC.getAllTeams());
+		int week = 4; // Because bye weeks start at week 6 so 5 in the 
 		boolean teamFinished = true;
 //		while(finishedTeams.size() < 32) {
 //			finishedTeams.clear(); //In case of some unforseen error it will just keep going until it gets something that works. Never seen evidence of it needing this.
@@ -161,6 +162,26 @@ public class Season{
 					}
 				}
 			}
+			
+			teamList.addAll(AFC.getAllTeams());
+			teamList.addAll(NFC.getAllTeams());
+			Collections.shuffle(teamList);
+			while(teamList.size() > 0) {
+				if(teamList.size()%4 == 0) {
+					week++;
+				}
+				Team team = teamList.get(0);
+				Team opp = team.getSharedByeWeek();
+				team.setWeekOfBye(week);
+				opp.setWeekOfBye(week);
+				Week byeWeek = schedule.get(week);
+				byeWeek.getTeamsOnBye().add(team);
+				byeWeek.getTeamsOnBye().add(opp);
+				teamList.remove(team);
+				teamList.remove(opp);
+			}
+
+			
 			System.out.println("Bye Weeks Assigned");
 		}
 
