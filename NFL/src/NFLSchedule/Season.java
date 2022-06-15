@@ -281,8 +281,9 @@ public class Season{
 
 	//Sets the week Numbers
 	public void initalizeSchedule() {
-		for(int i = 0; i < schedule.size(); i++) {
-			schedule.get(i).setWeekNumber(i);
+		for(int i = 0; i < 18; i++) {
+			Week week = new Week(i);
+			schedule.add(week);
 		}
 	}
 
