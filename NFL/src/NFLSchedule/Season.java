@@ -254,7 +254,18 @@ public class Season{
 		List<Team> teamList = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
 		teamList.addAll(NFC.getAllTeams());
-		
+		for(int i = 0; i < teamList.size(); i++) {
+			Team team = teamList.get(i);
+			Division division = team.getDivision();
+			for(int y = 0; y < 4; y++) {
+				Team opp = division.getTeam(y);
+				if(opp != team) {
+					team.getTeamPool().add(opp);
+				}
+			}
+		}
+//		System.out.print(teamList.get(0).getTeamPool());
+		System.out.println("Team Pools Update");
 	}
 
 
