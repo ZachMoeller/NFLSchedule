@@ -277,7 +277,7 @@ public class Season{
 	}
 	
 	/*
-	 * Confrence AFC, NFC : Confrences of the NF
+	 * Confrence AFC, NFC : Confrences of the NFL
 	 * 
 	 * Add their in division rivals to their team pool again as they play them twice.  
 	 * We do this so we can use the team pool to make the schedule. 
@@ -300,7 +300,15 @@ public class Season{
 		System.out.println("Team Pools Updated");
 	}
 
-
+	/*
+	 * Confrence AFC, NFC : Confrences of the NFL
+	 * 
+	 * Using each team's teamPool it will fill in the schedule week by week starting at week 18
+	 * Checking each week if it's that teams bye week. if so It will skip that week
+	 * it will then check if that team is playing already that week if so it will skip that week
+	 * If it for some reason cannot complete the schedule it will try again until it finds a complete schedule. 
+	 * As each spot is filled in these teams will be removed from eachothers list so we don't have the same game the same week
+	 */
 	private void createSchedule(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
