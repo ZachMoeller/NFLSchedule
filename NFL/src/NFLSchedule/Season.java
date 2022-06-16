@@ -16,9 +16,11 @@ public class Season{
 		assignByeWeeks(AFC, NFC);
 		selectIntraConfrenceOpponent(AFC, NFC);
 		updateTeamPools(AFC, NFC);
+		createSchedule(AFC, NFC);
 	}
 	
 	
+
 
 	/*
 	 * Will randomly assign in League Rivals
@@ -296,6 +298,30 @@ public class Season{
 		}
 //		System.out.print(teamList.get(0).getTeamPool());
 		System.out.println("Team Pools Updated");
+	}
+
+
+	private void createSchedule(Confrence AFC, Confrence NFC) {
+		List<Team> teamList = new ArrayList<Team>();
+		teamList.addAll(AFC.getAllTeams());
+		teamList.addAll(NFC.getAllTeams());
+		Collections.shuffle(teamList);
+		boolean teamFinished = true;
+		while(teamList.size() > 0) {
+			
+			if(!teamFinished) {
+				teamList.clear();
+				schedule.clear();
+				teamList.addAll(AFC.getAllTeams());
+				teamList.addAll(NFC.getAllTeams());
+				Collections.shuffle(teamList);
+				initalizeSchedule();
+			}
+			
+			else {
+				
+			}
+		}
 	}
 
 
