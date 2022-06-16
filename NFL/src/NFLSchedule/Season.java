@@ -122,7 +122,12 @@ public class Season{
 	/*
 	 * Assigns each team's bye week in pairs
 	 * 
-	 * Giants are currently getting through twice
+	 * Takes each team's teamPool and assigns them a partner from that pool at random.
+	 * Assigns the opps partner to the team. 
+	 * From tests this has about a 1/10 to 1/15 chance to fail so if it does it just runs again. 
+	 * 
+	 * After this it will put all the teams into a list and assign them at random starting at week 6 going until week 14
+	 * 
 	 */
 	private void assignByeWeeks(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
@@ -270,7 +275,10 @@ public class Season{
 	}
 	
 	/*
+	 * Confrence AFC, NFC : Confrences of the NF
+	 * 
 	 * Add their in division rivals to their team pool again as they play them twice.  
+	 * We do this so we can use the team pool to make the schedule. 
 	 */
 	private void updateTeamPools(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
