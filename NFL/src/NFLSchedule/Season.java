@@ -340,6 +340,7 @@ public class Season{
 							for(int y = 0; y < 4; y++) {
 								opp = divRivals[i];
 								if(opp != team && !week.containsTeam(opp)){
+									teamFinished = true;
 									break;
 								}
 								else {
@@ -348,8 +349,12 @@ public class Season{
 							}
 							if(teamFinished) {
 								Game game = new Game(team, opp);
+								teamPool.remove(opp);
+								opp.getTeamPool().remove(team);
 								week.addGame(game);
 							}
+						}
+						else {
 							
 						}
 					}
