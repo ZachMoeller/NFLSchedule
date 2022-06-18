@@ -313,10 +313,9 @@ public class Season{
 		List<Team> teamList = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
 		teamList.addAll(NFC.getAllTeams());
-		Collections.shuffle(teamList);
+		Collections.shuffle(teamList); // Adds more variety by not doing the bengals first everytime. 
 		boolean teamFinished = true;
 		while(teamList.size() > 0) {
-			
 			if(!teamFinished) {
 				teamList.clear();
 				schedule.clear();
@@ -325,9 +324,36 @@ public class Season{
 				Collections.shuffle(teamList);
 				initalizeSchedule();
 			}
-			
 			else {
 				
+				Team team = teamList.get(0);
+				Division teamDiv = team.getDivision();
+				List<Team> teamPool = team.getTeamPool();
+				Team[] divRivals = teamDiv.getTeams();
+				Collections.shuffle(teamPool);
+				Team opp = null;
+				
+				for(int i = 17; i > -1; i--) {
+					Week week = schedule.get(i);
+					if(!week.containsTeam(team)) {
+						if(i == 17) {
+							for(int y = 0; y < 4; y++) {
+								opp = divRivals[i];
+								if(opp != team && !week.containsTeam(opp)){
+									break;
+								}
+								else {
+									teamFinished = false;
+								}
+							}
+							if(teamFinished) {
+								Game game = new Game(team, opp);
+								week.addGame(game);
+							}
+							
+						}
+					}
+				}
 			}
 		}
 	}
