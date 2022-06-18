@@ -36,7 +36,11 @@ public class Week {
 	public void setTeamsOnBye(List<Team> teamsOnBye) {
 		this.teamsOnBye = teamsOnBye;
 	}
-
+	
+	public void addGame(Game game) {
+		weekSchedule.add(game);
+	}
+	
 	public List<Game> getWeekSchedule() {
 		return weekSchedule;
 	}
