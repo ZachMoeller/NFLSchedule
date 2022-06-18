@@ -6,10 +6,20 @@ public class Week {
 	List<Game> weekSchedule = new ArrayList<Game>();
 	int weekNumber;
 	
+	
 	public Week(int weekNumber_c) {
 		weekNumber = weekNumber_c;
 	}
 	
+	public boolean containsTeam(Team team) {
+		for(int i = 0; i < weekSchedule.size(); i++) {
+			Game game = weekSchedule.get(i);
+			if(game.containsTeam(team)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	public int getWeekNumber() {
 		return weekNumber;
 	}
@@ -40,7 +50,5 @@ public class Week {
 		for(int i = 0; i < 16; i++) {
 			System.out.print("| " + weekSchedule.get(i).getHomeTeam() + " vs " + weekSchedule.get(i).getAwayTeam()+ " |");
 		}
-			
-		
 	}
 }

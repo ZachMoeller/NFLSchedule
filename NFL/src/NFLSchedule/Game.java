@@ -3,6 +3,20 @@ public class Game {
 	Team homeTeam;
 	Team awayTeam;
 	
+	
+	public Game(Team homeTeam_c, Team awayTeam_c) {
+		homeTeam = homeTeam_c;
+		awayTeam = awayTeam_c;
+	}
+	
+	public boolean containsTeam(Team team) {
+		if(team == homeTeam || team == awayTeam) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	public Team getHomeTeam() {
 		return homeTeam;
 	}
