@@ -1,4 +1,5 @@
 package NFLSchedule;
+import java.util.*;
 
 public class Division {
 	Division inConfrenceRival;
@@ -6,10 +7,24 @@ public class Division {
 	Confrence confrence;
 	Team[] teams = new Team[4];
 	
+	
+	
+	
 	public Division(Confrence confrence_c) {
 		this.confrence = confrence_c;
 	}
 	
+	/*
+	 * will randomly pick a team that is not the given team
+	 */
+	public Team getOtherTeam(Team team) { 
+		Random rand = new Random();
+		Team opp;
+		do {
+				opp = teams[rand.nextInt(4)];
+		} while(opp == team);
+		return opp;
+	}
 	
 	public Confrence getConfrence() {
 		return confrence;
