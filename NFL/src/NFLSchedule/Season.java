@@ -339,7 +339,7 @@ public class Season{
 			
 			for(int i = 16; i > -1; i--) { //Rest of the weeks
 				week = schedule.get(i);
-				if(week.containsTeam(team) || i == byeWeek) { //If the team is already playing or it's their bye week move to the next week. 
+				if(week.containsTeam(team) || week.getTeamsOnBye().contains(team)) { //If the team is already playing or it's their bye week move to the next week. 
 					continue;
 				}
 				

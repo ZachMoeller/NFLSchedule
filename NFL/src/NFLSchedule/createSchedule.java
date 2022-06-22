@@ -94,7 +94,10 @@ public class createSchedule {
 		
 
 		
-		new Season(nfl);
+		Season season = new Season(nfl);
+		
+		season.printSchedule();
+		
 		
 //		System.out.println(game.containsTeam(giants));
 //		System.out.println(game.containsTeam(chiefs));
