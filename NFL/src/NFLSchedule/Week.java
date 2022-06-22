@@ -50,7 +50,7 @@ public class Week {
 	}
 
 	public void printWeek() {
-		System.out.println(weekNumber + ": ");
+		System.out.println(weekNumber+1 + ": ");
 		for(int i = 0; i < 16; i++) {
 			System.out.print("| ");
 			System.out.print(weekSchedule.get(i).getHomeTeam() + " vs " + weekSchedule.get(i).getAwayTeam()+ " |");
