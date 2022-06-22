@@ -90,8 +90,20 @@ public class createSchedule {
 		
 		League nfl = new League(AFC, NFC);
 		
-		new Season(nfl);
+		Game game = new Game(giants, eagles);
+		
 
+		
+		new Season(nfl);
+		
+//		System.out.println(game.containsTeam(giants));
+//		System.out.println(game.containsTeam(chiefs));
+//		
+//		Week week = new Week(1);
+//		week.addGame(game);
+//		
+//		System.out.println(week.containsTeam(eagles));
+//		System.out.println(week.containsTeam(chiefs));
 //		System.out.println(chiefs.getSharedByeWeek().toString());
 
 //		nfl.check();

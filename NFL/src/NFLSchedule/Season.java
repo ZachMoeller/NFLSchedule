@@ -126,23 +126,19 @@ public class Season{
 	 * 
 	 * Takes each team's teamPool and assigns them a partner from that pool at random.
 	 * Assigns the opps partner to the team. 
-	 * From tests this has about a 1/10 to 1/15 chance to fail so if it does it just runs again. 
+	 * From tests this has about a 1/10 to a 1/15 chance to fail so if it does it just runs again. 
 	 * 
 	 * After this it will put all the teams into a list and assign them at random starting at week 6 going until week 14
 	 * 
 	 */
 	private void assignByeWeeks(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
-//		List<Team> finishedTeams = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
 		teamList.addAll(NFC.getAllTeams());
-		int week = 4; // Because bye weeks start at week 6 so 5 in the 
+		int week = 4; // Because bye weeks start at week 6.
 		boolean teamFinished = true;
-//		while(finishedTeams.size() < 32) {
-//			finishedTeams.clear(); //In case of some unforseen error it will just keep going until it gets something that works. Never seen evidence of it needing this.
-//			//but im too scared to delete it.
+		
 			while(teamList.size() > 0) {
-//				System.out.println(i);
 				
 				if(!teamFinished) {
 					teamList.clear();
@@ -174,7 +170,7 @@ public class Season{
 			teamList.addAll(NFC.getAllTeams());
 			Collections.shuffle(teamList);
 			while(teamList.size() > 0) {
-				if(teamList.size()%4 == 0) {
+				if(teamList.size()%4 == 0) { // 4 teams per bye week
 					week++;
 				}
 				Team team = teamList.get(0);
@@ -191,46 +187,34 @@ public class Season{
 			
 			System.out.println("Bye Weeks Assigned");
 		}
-
-				
-				
-//				System.out.println("Working on " + team.toString());
-//				if(!finishedTeams.contains(team)) {
-//					List<Team> teamPool = team.getTeamPool();
-//					Collections.shuffle(teamPool);
-//					Team selectedTeam = teamPool.get(0);
-//				
-//					for(int y = 0; y < teamPool.size(); y++) {
-//						selectedTeam = teamPool.get(y);
-//						if(!finishedTeams.contains(selectedTeam)) {
-//							System.out.println(finishedTeams.size()+2 + ". Paired " + team.toString() + " with " + selectedTeam.toString());
-//							team.setSharedByeWeek(selectedTeam);
-//							selectedTeam.setSharedByeWeek(team);
-//							finishedTeams.add(selectedTeam);
-//							finishedTeams.add(team);
-//							y = 500;
-//							System.out.println(team.toString());
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-
-
-
-
-
-	/*
-	 * Will generate each teams pool
-	 * 
-	 * Confrence AFC, NFC : Confrences of the NFL
-	 */
 	/*
 	 * Will generate each teams intraleague opponent and put them into the pool of teams they can play
 	 * 
 	 * 
 	 * Confrence AFC, NFC : Confrences of the NFL
+	 * 
+	 * This will create a sorted list of the teams based on Confrence, Division, and Seed within the division
+	 * The sort looks like this.
+	 * AFC
+	 * 	North
+	 * 		1st seed
+	 * 		2nd Seed
+	 * 		3rd Seed
+	 * 		4th Seed
+	 * 	South
+	 * 	East
+	 * 	West
+	 * NFC
+	 * 	North
+	 * 	South
+	 * 	East
+	 * 	West
+	 * 
+	 * since each division has their opponents selected the algorithim 
+	 * will just choose one team that shares a seed from the other confrence that they're not already playing
+	 * then both teams are added to the Finished teams list so they're not picked again. 
+	 * run this 16 times and all teams are done. 
+	 * 
 	 */
 	private void selectIntraConfrenceOpponent(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
@@ -241,17 +225,18 @@ public class Season{
 		while(teamFinished) {
 			List<Team> finishedTeams = new ArrayList<Team>();
 			for(int i = 0; i < teamList.size(); i++) {
-				int seed = i%4;
+				int seed = i%4; //The list is organized so I am allowed to do this 
 				Team team = teamList.get(i);
 				List<Team> possibleOpps = new ArrayList<Team>();
 				//You only have to do one side as you're choosing 1 from each side of the league.
-				//AFC
+				//so I chose the AFC
 				if(i < 16) {
 					for(int y = 0; y < 4; y++) {
 						possibleOpps.add(NFC.getDivision(y).getTeam(seed));
 					}
 						Collections.shuffle(possibleOpps);
 					for(int y = 0; y < 4; y++) {
+						// Team is not already playing them and they're not already done. 
 						if(!team.getTeamPool().contains(possibleOpps.get(y)) && !finishedTeams.contains(possibleOpps.get(y))) {
 							Team opp = possibleOpps.get(y);
 							team.setIntraConfrenceRivalTeam(opp);
@@ -291,7 +276,7 @@ public class Season{
 			Division division = team.getDivision();
 			for(int y = 0; y < 4; y++) {
 				Team opp = division.getTeam(y);
-				if(opp != team) {
+				if(opp != team) { // Not allowed to play against yourself. Something about competitive integrity??? i dont know...
 					team.getTeamPool().add(opp);
 				}
 			}
@@ -303,65 +288,72 @@ public class Season{
 	/*
 	 * Confrence AFC, NFC : Confrences of the NFL
 	 * 
-	 * Using each team's teamPool it will fill in the schedule week by week starting at week 18
-	 * Checking each week if it's that teams bye week. if so It will skip that week
-	 * it will then check if that team is playing already that week if so it will skip that week
-	 * If it for some reason cannot complete the schedule it will try again until it finds a complete schedule. 
-	 * As each spot is filled in these teams will be removed from eachothers list so we don't have the same game the same week
+	 * will execute the createTeamSchedule() method for each team.
 	 */
 	private void createSchedule(Confrence AFC, Confrence NFC) {
 		List<Team> teamList = new ArrayList<Team>();
 		teamList.addAll(AFC.getAllTeams());
 		teamList.addAll(NFC.getAllTeams());
-		Collections.shuffle(teamList); // Adds more variety by not doing the bengals first everytime. 
-		boolean teamFinished = true;
-		while(teamList.size() > 0) {
-			if(!teamFinished) {
-				teamList.clear();
-				schedule.clear();
-				teamList.addAll(AFC.getAllTeams());
-				teamList.addAll(NFC.getAllTeams());
-				Collections.shuffle(teamList);
-				initalizeSchedule();
+		Collections.shuffle(teamList); // Adds more variety by not doing the bengals first everytime. Joe Burrow looking pretty hot right now. made it to the superbowl and all that. 
+		
+		for(int i = 0; i < teamList.size(); i++) {
+			Team team = teamList.get(i);
+//			System.out.println(team);
+			createTeamSchedule(team);
+		}
+	}
+
+
+
+	private void createTeamSchedule(Team team) {
+		List<Team> teamPool = team.getTeamPool();
+		int byeWeek = team.getWeekOfBye();
+		Division div = team.getDivision();
+		List<Team> divRivals = new ArrayList<Team>();
+		Team opp = null;
+		Week week = schedule.get(17);
+		if(!week.containsTeam(team)) {
+			for(int i = 0; i < 3; i++) {
+				Team rival = div.getTeam(i);
+				if(rival != team) {
+					divRivals.add(rival);
+				}
 			}
-			else {
+		
+			for(int i = 0; i < 2; i++) { //Last Week of the season
+				opp = divRivals.get(i);
+				if(teamPool.contains(opp) && !week.containsTeam(opp)) {
+					Game game = new Game(team, opp);
+					week.addGame(game);
+					teamPool.remove(opp);
+					opp.getTeamPool().remove(team);
+//					System.out.println("Week 18 Finished");
+					break;// once a game is made leave the loop
+				}
+			}
+			
+			for(int i = 16; i > -1; i--) { //Rest of the weeks
+				week = schedule.get(i);
+				if(week.containsTeam(team) || i == byeWeek) { //If the team is already playing or it's their bye week move to the next week. 
+					continue;
+				}
 				
-				Team team = teamList.get(0);
-				Division teamDiv = team.getDivision();
-				List<Team> teamPool = team.getTeamPool();
-				Team[] divRivals = teamDiv.getTeams();
-				Collections.shuffle(teamPool);
-				Team opp = null;
-				
-				for(int i = 17; i > -1; i--) {
-					Week week = schedule.get(i);
-					if(!week.containsTeam(team)) {
-						if(i == 17) {
-							for(int y = 0; y < 4; y++) {
-								opp = divRivals[i];
-								if(opp != team && !week.containsTeam(opp)){
-									teamFinished = true;
-									break;
-								}
-								else {
-									teamFinished = false;
-								}
-							}
-							if(teamFinished) {
-								Game game = new Game(team, opp);
-								teamPool.remove(opp);
-								opp.getTeamPool().remove(team);
-								week.addGame(game);
-							}
+				else {
+					
+					for(int y = 0; y < teamPool.size(); y++) {// Selecting a team that doesn't play already
+						opp = teamPool.get(y);
+						if(!week.containsTeam(opp)) break; //Stop looking once the team is found. 
 						}
-						else {
-							
-						}
+					
+					Game game = new Game(team, opp);
+					week.addGame(game);
+					teamPool.remove(opp);
+					opp.getTeamPool().remove(team);
 					}
+//				System.out.println("Week " + (i+1) + " Finished");
 				}
 			}
 		}
-	}
 
 
 
@@ -381,11 +373,4 @@ public class Season{
 			schedule.add(week);
 		}
 	}
-
-
-
-
-
-
-
 }
