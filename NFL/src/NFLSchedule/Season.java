@@ -381,7 +381,8 @@ public class Season{
 	
 	public void printSchedule() {
 		for(int i = 0; i < schedule.size(); i++) {
-			
+			schedule.get(i).printWeek();
+			System.out.println();
 		}
 	}
 }
