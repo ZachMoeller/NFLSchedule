@@ -29,4 +29,8 @@ public class Game {
 	public void setAwayTeam(Team awayTeam) {
 		this.awayTeam = awayTeam;
 	}
+	
+	public String toString() {
+		return (homeTeam + " vs " + awayTeam);
+	}
 }

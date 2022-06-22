@@ -286,7 +286,7 @@ public class Season{
 	}
 
 	/*
-	 * Confrence AFC, NFC : Confrences of the NFL
+	 * @params Confrence AFC, NFC : Confrences of the NFL
 	 * 
 	 * will execute the createTeamSchedule() method for each team.
 	 */
@@ -304,7 +304,12 @@ public class Season{
 	}
 
 
-
+/*
+ * this method creates the schedule for one NFL team based on their team pool. 
+ * 
+ * Team team: Team in the NFL
+ * 
+ */
 	private void createTeamSchedule(Team team) {
 		List<Team> teamPool = team.getTeamPool();
 		int byeWeek = team.getWeekOfBye();
@@ -371,6 +376,12 @@ public class Season{
 		for(int i = 0; i < 18; i++) {
 			Week week = new Week(i);
 			schedule.add(week);
+		}
+	}
+	
+	public void printSchedule() {
+		for(int i = 0; i < schedule.size(); i++) {
+			
 		}
 	}
 }
