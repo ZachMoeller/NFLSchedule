@@ -52,7 +52,8 @@ public class Week {
 	public void printWeek() {
 		System.out.println(weekNumber + ": ");
 		for(int i = 0; i < 16; i++) {
-			System.out.print("| " + weekSchedule.get(i).getHomeTeam() + " vs " + weekSchedule.get(i).getAwayTeam()+ " |");
+			System.out.print("| ");
+			System.out.print(weekSchedule.get(i).getHomeTeam() + " vs " + weekSchedule.get(i).getAwayTeam()+ " |");
 		}
 	}
 }
